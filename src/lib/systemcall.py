@@ -1,8 +1,14 @@
 
 from .task import Task
-#from .scheduler import Scheduler
 
-from .scheduler import SystemCall
+from .scheduler_interface import IScheduler
+from .systemcall_interface import ISystemCall
+
+
+class SystemCall(ISystemCall):
+
+    def handle():
+        pass
 
 
 class NullSystemCall(SystemCall):

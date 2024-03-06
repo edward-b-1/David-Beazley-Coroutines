@@ -59,28 +59,12 @@ def print_alive():
 
 
 def alive():
-    # print(f'******** type of print_alive is {type(print_alive)}')
-    # print(f'******** type of server is {type(server)}')
-
     while True:
         yield NewTask('print alive', print_alive())
-        #print(f'alive')
         yield Sleep(10.0)
 
 
 def main():
-
-    if hasattr(print_alive, 'send'):
-        print(f'print_alive has send')
-    else:
-        print(f'print_alive does not have send')
-
-    if hasattr(handle_client, 'send'):
-        print(f'handle_client has send')
-    else:
-        print(f'handle_client does not have send')
-
-    #test_consume()
 
     scheduler = Scheduler()
     scheduler.new_task('alive function (task)', alive())

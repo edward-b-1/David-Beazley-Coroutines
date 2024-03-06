@@ -6,8 +6,6 @@ from queue import PriorityQueue
 from select import select
 
 from .task import Task
-#from .systemcall import SystemCall
-
 
 from dataclasses import dataclass
 from dataclasses import field
@@ -18,6 +16,9 @@ from time import sleep
 
 from lib_consume import consume
 
+from .scheduler_interface import IScheduler
+from .systemcall_interface import ISystemCall
+
 
 @dataclass(order=True)
 class PrioritizedItem:
@@ -25,7 +26,7 @@ class PrioritizedItem:
     item: Any=field(compare=False)
 
 
-class Scheduler():
+class Scheduler(IScheduler):
 
     def __init__(self) -> None:
         self.ready_queue = Queue()
@@ -218,7 +219,7 @@ class Scheduler():
             try:
                 print(f'running task {str(task)}')
                 result = task.run()
-                if isinstance(result, SystemCall):
+                if isinstance(result, ISystemCall):
                     print(f'got system call')
                     result.set_associated_task_and_scheduler(
                         task, scheduler=self)
@@ -232,20 +233,5 @@ class Scheduler():
 
 
 
-class SystemCall():
 
-    def handle():
-        pass
-
-    def set_associated_task_and_scheduler(
-        self,
-        task: Task,
-        scheduler: Scheduler,
-    ) -> None:
-        if not isinstance(task, Task):
-            print(f'task must be of type Task, not {type(task)}')
-        if not isinstance(scheduler, Scheduler):
-            print(f'scheduler must be of type Scheduler, not {type(scheduler)}')
-        self.task = task
-        self.scheduler = scheduler
 
